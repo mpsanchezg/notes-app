@@ -1,36 +1,75 @@
 package com.devskiller.notepadplus
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.devskiller.notepadplus.databinding.ActivityMainBinding
+import com.devskiller.notepadplus.databinding.FragmentWelcomeBinding
+import java.util.UUID
 
 class MainActivity : AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+  private lateinit var binding: ActivityMainBinding
+  private val viewModel: MainViewModel = MainViewModel()
 
-        setContentView(ActivityMainBinding.inflate(layoutInflater).root)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
 
-        // START YOUR CHANGE
-        // END YOUR CHANGE
+    binding = ActivityMainBinding.inflate(layoutInflater)
+    setContentView(binding.root)
+
+    // START YOUR CHANGE
+    setupView()
+    // END YOUR CHANGE
+  }
+
+  override fun onResume() {
+    super.onResume()
+    setupView()
+  }
+
+  override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    super.onCreateOptionsMenu(menu)
+
+    menuInflater.inflate(R.menu.menu, menu)
+
+    return true
+  }
+
+  override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+    R.id.create_note -> {
+      // START YOUR CHANGE
+      goToChangeNote()
+      // END YOUR CHANGE
+      true
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        super.onCreateOptionsMenu(menu)
+    else -> super.onOptionsItemSelected(item)
+  }
 
-        menuInflater.inflate(R.menu.menu, menu)
+  private fun setupView() {
 
-        return true
+    if (viewModel.areNoteListEmpty()) {
+      val welcomeFragment = WelcomeFragment.newInstance()
+      supportFragmentManager
+        .beginTransaction()
+        .add(R.id.fl_fragment_container, welcomeFragment)
+        .commitNow()
+    } else {
+      val noteListFragment = NoteListFragment.newInstance()
+      supportFragmentManager
+        .beginTransaction()
+        .add(R.id.fl_fragment_container, noteListFragment)
+        .commitNow()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.create_note -> {
-            // START YOUR CHANGE
-            // END YOUR CHANGE
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
-    }
+  }
+
+  private fun goToChangeNote() {
+    val intent = ChangeNoteActivity.newIntent(this, UUID.randomUUID())
+    startActivity(intent)
+  }
 }
