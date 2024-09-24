@@ -1,13 +1,10 @@
 package com.devskiller.notepadplus
 
-import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.devskiller.notepadplus.databinding.ActivityMainBinding
-import com.devskiller.notepadplus.databinding.FragmentWelcomeBinding
 import java.util.UUID
 
 class MainActivity : AppCompatActivity() {
@@ -56,13 +53,13 @@ class MainActivity : AppCompatActivity() {
       val welcomeFragment = WelcomeFragment.newInstance()
       supportFragmentManager
         .beginTransaction()
-        .add(R.id.fl_fragment_container, welcomeFragment)
+        .replace(R.id.fl_fragment_container, welcomeFragment)
         .commitNow()
     } else {
       val noteListFragment = NoteListFragment.newInstance()
       supportFragmentManager
         .beginTransaction()
-        .add(R.id.fl_fragment_container, noteListFragment)
+        .replace(R.id.fl_fragment_container, noteListFragment)
         .commitNow()
     }
 

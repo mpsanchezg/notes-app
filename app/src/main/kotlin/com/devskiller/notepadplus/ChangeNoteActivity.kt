@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.devskiller.notepadplus.databinding.ActivityChangeNoteBinding
-import java.lang.Exception
 import java.util.UUID
 
 class ChangeNoteActivity : AppCompatActivity() {
@@ -52,7 +51,6 @@ class ChangeNoteActivity : AppCompatActivity() {
     } ?: run {
       binding.etTitle.error
     }
-
     goBackToMainActivity()
   }
 
