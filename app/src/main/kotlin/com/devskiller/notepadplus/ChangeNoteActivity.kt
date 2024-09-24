@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import com.devskiller.notepadplus.databinding.ActivityChangeNoteBinding
 import java.lang.Exception
 import java.util.UUID
@@ -39,23 +38,26 @@ class ChangeNoteActivity : AppCompatActivity() {
 
   private fun setUpView() {
     val extras = intent.extras
-    val uuid: UUID? = extras?.get(EXTRA_NOTE_ID).let {
-      try {
-        it as UUID
-      } catch (error: Exception) {
-        null
-      }
-    }
+    val uuid: UUID = extras?.get(EXTRA_NOTE_ID) as UUID
 
     binding.etTitle.error = getString(R.string.field_not_be_empty_error)
     binding.bSave.setOnClickListener {
-      binding.etTitle.text?.let {
-        viewModel.addOrUpdateNote(uuid, it.toString(), binding.etDescription.text.toString())
-      } ?: run {
-        binding.etTitle.error
-      }
+      saveNote(uuid)
     }
   }
 
+  private fun saveNote(uuid: UUID) {
+    binding.etTitle.text?.let {
+      viewModel.addOrUpdateNote(uuid, it.toString(), binding.etDescription.text.toString())
+    } ?: run {
+      binding.etTitle.error
+    }
+
+    goBackToMainActivity()
+  }
+
+  private fun goBackToMainActivity() {
+    this.finish()
+  }
 
 }
