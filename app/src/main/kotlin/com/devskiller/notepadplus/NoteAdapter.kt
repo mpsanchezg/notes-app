@@ -4,29 +4,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.devskiller.notepadplus.databinding.ViewNoteListItemBinding
 
-class NoteAdapter(private val mNotes: List<Note>) : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
+class NoteAdapter(
+    private val mNotes: List<Note>,
+) : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
 
     inner class NoteHolder(
         private val mViewBinding: ViewNoteListItemBinding
     ) : RecyclerView.ViewHolder(mViewBinding.root), View.OnClickListener {
 
         private var mNote: Note? = null
-        var noteTitle: TextView? = itemView.findViewById(R.id.tv_note_title)
+        var noteTitle: TextView? = mViewBinding.tvNoteTitle
 
         override fun onClick(view: View) {
-            // START YOUR CHANGE
+          // START YOUR CHANGE
             mNote?.let {
-                view.context.startActivity(
-                    ChangeNoteActivity.newIntent(
-                        view.context,
-                        it.id
-                    )
-                )
+                val intent = ChangeNoteActivity.newIntent(view.context, it.id)
+                startActivity(view.context, intent, null)
             }
-            // END YOUR CHANGE
+          // END YOUR CHANGE
         }
     }
 
