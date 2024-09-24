@@ -47,11 +47,12 @@ class ChangeNoteActivity : AppCompatActivity() {
       }
     }
 
+    binding.etTitle.error = getString(R.string.field_not_be_empty_error)
     binding.bSave.setOnClickListener {
       binding.etTitle.text?.let {
         viewModel.addOrUpdateNote(uuid, it.toString(), binding.etDescription.text.toString())
       } ?: run {
-        binding.etTitle.error = getString(R.string.field_not_be_empty_error)
+        binding.etTitle.error
       }
     }
   }
